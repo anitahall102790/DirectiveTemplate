@@ -1,0 +1,5 @@
+[
+    {"content_type" : "image", "title" : "Image 00", "data" : "temp-photo.jpg"},
+    {"content_type" : "video", "title" : "Video 00", "data" : "http://player.vimeo.com/video/37176398"},
+    {"content_type" : "notes", "title" : "Notes 00", "data" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+]

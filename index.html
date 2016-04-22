@@ -1,0 +1,76 @@
+<!Doctype html>
+<html ng-app="dynamictest">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+  </head>
+  <body>
+
+    <div ng-controller="ContentCtrl">
+      <content-item ng-repeat="item in array" content="item"></content-item>
+    </div>
+    <script>
+      angular.module('dynamictest', [])
+      .controller('ContentCtrl', [
+        '$scope',
+        function ($scope) {
+          $scope.array = [
+            {
+              "content_type": "image",
+              "title": "Image 00",
+              "data": "temp-photo.jpg"
+            }, {
+              "content_type": "video",
+              "title": "Video 00",
+              "data": "http://player.vimeo.com/video/37176398"
+            }, {
+              "content_type": "notes",
+              "title": "Notes 00",
+              "data": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            }
+          ];
+        }
+      ]).directive('contentItem', [
+        '$compile',
+        function ($compile) {
+          var imagetemplate = '<div><h1>Image</h1></div>';
+          var videotemplate = '<div><h1>video template</h1></div>';
+          var notestemplate = '<div><h1>Notes</h1></div>';
+
+          var getTemplate = function (contentType) {
+            var template = '';
+            switch (contentType) {
+              case 'image':
+                template = imagetemplate;
+                break;
+              case 'video':
+                template = videotemplate;
+                break;
+              case 'notes':
+                template = notestemplate;
+                break;
+            }
+            return template;
+          };
+
+          var linker = function (scope, element, attrs) {
+            /**
+            ** taking the return template and showing it in the DOM
+            */
+
+            element.html(getTemplate(scope.content.content_type)).show();
+            $compile(element.contents())(scope);
+          }
+          return {
+            restrict: "E",
+            link: linker,
+            scope: {
+              content: '='
+            }
+          };
+        }
+      ]); /** End */
+
+    </script>
+  </body>
+</html>
